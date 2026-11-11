@@ -1,0 +1,45 @@
+name: Publish feature matrix
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate PDF
+        run: |
+          chrome="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$chrome"
+          "$chrome" --headless --no-sandbox --disable-gpu --no-pdf-header-footer \
+            --print-to-pdf="$PWD/site/GHAS-on-ADO-feature-matrix.pdf" \
+            "file://$PWD/site/index.html"
+          test -s site/GHAS-on-ADO-feature-matrix.pdf
+          python3 - <<'PY'
+          from pathlib import Path
+          pdf = Path("site/GHAS-on-ADO-feature-matrix.pdf").read_bytes()
+          assert pdf.startswith(b"%PDF-"), "Invalid PDF output"
+          assert b"/Subtype /Link" in pdf, "PDF is missing clickable links"
+          print(f"PDF verified: {len(pdf)} bytes")
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - uses: actions/deploy-pages@v4
+        id: deployment
