@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>GHAS on Azure DevOps feature matrix</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #1f2328; background: #f6f8fa; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-size: 15px; line-height: 1.6; }
+    main { max-width: 1240px; margin: 0 auto; padding: 32px 36px 64px; background: white; }
+    nav { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 0 0 24px; margin-bottom: 24px; border-bottom: 1px solid #d1d9e0; }
+    nav a { font-weight: 600; }
+    a { color: #0969da; text-decoration: none; overflow-wrap: anywhere; }
+    a:hover { text-decoration: underline; }
+    h1 { font-size: 30px; line-height: 1.25; }
+    h2 { margin-top: 40px; padding-bottom: 8px; border-bottom: 1px solid #d1d9e0; }
+    h3 { margin-top: 32px; }
+    h1, h2, h3, h4 { scroll-margin-top: 20px; }
+    table { width: 100%; margin: 20px 0; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
+    th, td { padding: 10px 12px; border: 1px solid #d1d9e0; vertical-align: top; overflow-wrap: anywhere; }
+    th { text-align: left; background: #eaf0f6; }
+    tbody tr:nth-child(even) { background: #f6f8fa; }
+    th:first-child, td:first-child { width: 43%; }
+    th:nth-child(2), td:nth-child(2) { width: 12%; text-align: center; }
+    td:nth-child(2) { font-family: "Segoe UI", "Noto Color Emoji", sans-serif; }
+    code { padding: 2px 4px; background: #eff1f3; border-radius: 4px; font-size: .9em; }
+    .anchor { display: none; }
+    @media (max-width: 700px) {
+      main { padding: 20px 12px 40px; }
+      h1 { font-size: 25px; }
+      table { font-size: 12px; }
+      th, td { padding: 7px; }
+      th:first-child, td:first-child { width: 40%; }
+      th:nth-child(2), td:nth-child(2) { width: 16%; }
+    }
+    @page { size: A4 landscape; margin: 12mm; }
+    @media print {
+      :root, body { background: white; }
+      body { font-size: 9.5pt; line-height: 1.35; }
+      main { max-width: none; margin: 0; padding: 0; }
+      nav { display: none; }
+      h1 { font-size: 20pt; }
+      h2 { margin-top: 18pt; font-size: 16pt; }
+      h3 { margin-top: 14pt; font-size: 12pt; }
+      h1, h2, h3, h4 { break-after: avoid; }
+      table { font-size: 8.5pt; margin: 10pt 0; }
+      thead { display: table-header-group; }
+      tr { break-inside: avoid; }
+      th, td { padding: 5pt 6pt; }
+      a { color: #0756ad; }
+      th, tbody tr:nth-child(even), code { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav aria-label="Downloads">
+      <a href="GHAS-on-ADO-feature-matrix.pdf">Download PDF</a>
+      <a href="GHAS-on-ADO-feature-matrix.md">Markdown source</a>
+      <a href="https://github.com/gubraun/ghas-ado-feature-matrix-temp-20261111">Temporary GitHub repository</a>
+    </nav>
+    <article><h1 id="github-advanced-security-ghas-on-azure-devops-feature-matrix">GitHub Advanced Security (GHAS) on Azure DevOps Feature Matrix</h1>
+<p>This document helps answer the question <strong>"Is this GitHub security feature available in GitHub Advanced Security for Azure DevOps?"</strong></p>
+<p>The sections, feature names, and ordering follow the <a href="https://github.com/advanced-security/advanced-security-material/blob/main/GHAS-on-GHES-feature-matrix.md">GHAS-on-GHES feature matrix</a> as closely as possible. Core capabilities and relevant cloud-only features are included where they help explain Azure DevOps support.</p>
+<p><strong>Last reviewed: November 11, 2026.</strong> Scope: <strong>Azure DevOps Services / Azure Repos Git</strong>, not Azure DevOps Server or TFVC. Support is based exclusively on public product documentation and published release notes.</p>
+<h4 id="contents">Contents</h4>
+<ul>
+<li><a href="#how-do-i-read-this-document">How do I read this document?</a></li>
+<li><a href="#release-notes">Release notes</a></li>
+<li><a href="#secret-protection">Secret Protection</a></li>
+<li><a href="#code-security">Code Security</a>
+<ul>
+<li><a href="#code-scanning">Code scanning</a></li>
+<li><a href="#copilot-autofix-and-ai-security">Copilot Autofix and AI security</a></li>
+<li><a href="#dependabot-alerts">Dependabot alerts</a></li>
+<li><a href="#dependabot-updates">Dependabot updates</a></li>
+<li><a href="#dependency-graph-dependency-review-and-snapshot-submission-api">Dependency graph, dependency review and snapshot submission API</a></li>
+</ul>
+</li>
+<li><a href="#security-overview">Security Overview</a></li>
+<li><a href="#administration">Administration</a></li>
+<li><a href="#dependencies">Dependencies</a></li>
+</ul>
+<h4 id="how-do-i-read-this-document">How do I read this document?</h4>
+<p>Each row represents a feature. There is only one support column: <strong>Azure DevOps</strong>.</p>
+<table role="table">
+<thead>
+<tr>
+<th>Cell</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✅</td>
+<td>Generally available.</td>
+</tr>
+<tr>
+<td>☑️</td>
+<td>Public preview, including limited public preview.</td>
+</tr>
+<tr>
+<td>🔒</td>
+<td>Private preview.</td>
+</tr>
+<tr>
+<td>Empty</td>
+<td>No documented native Azure DevOps support established for this feature.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Empty cells are intentionally left blank</strong>, including features available on GitHub but not documented on Azure DevOps. A blank is not a prediction or proof that a capability is technically impossible. In particular, version-dependent CodeQL CLI functionality is not automatically equivalent to a supported Azure DevOps product integration.</p>
+<p>Every <strong>Feature</strong> link points to public Azure DevOps documentation. For a feature without documented ADO support, the link points to the closest relevant ADO capability or API documentation; it does <strong>not</strong> imply that the missing feature is described or supported there. Notes distinguish native equivalents, narrower implementations, and unverified details.</p>
+<p>The dependency-scanning rows compare equivalent security outcomes: Azure DevOps calls its capability <strong>dependency scanning</strong>, not Dependabot. Third-party extensions and customer-built automation do not count as native support.</p>
+<h2 id="release-notes">Release notes</h2>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-276-update" rel="nofollow">CodeQL default setup GA: Sprint 276</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-275-update" rel="nofollow">PR security status checks GA: Sprint 275</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2025/sprint-264-update" rel="nofollow">Dependency default setup and work-item linking GA: Sprint 264</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-281-update" rel="nofollow">Copilot Autofix limited public preview: Sprint 281</a>.</li>
+</ul>
+<h2 id="secret-protection">Secret Protection</h2>
+<p>Secret scanning identifies credentials in repository content and history. Push protection blocks supported secrets before they enter the repository.</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret scanning documentation</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scan-patterns?view=azure-devops" rel="nofollow">Supported secret patterns</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Advanced Security REST API documentation</a>.</li>
+</ul>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scan-patterns?view=azure-devops" rel="nofollow">Partner patterns / supported secret types</a></td>
+<td>✅</td>
+<td>Use the ADO pattern table; detection, push protection, and validity-check coverage differ by secret type.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Non-provider patterns</a></td>
+<td>✅</td>
+<td>Available through the <strong>Other</strong> confidence filter.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">User-space secret scanning</a></td>
+<td></td>
+<td>No personal-repository/user-space counterpart established; ADO repositories belong to projects.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Push protection bypass</a></td>
+<td>✅</td>
+<td>Contributor bypass uses <code class="notranslate">skip-secret-scanning:true</code> in the commit message; an alert is still generated. This is not delegated approval.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Detect secrets in discussions and PR titles, bodies, and comments</a></td>
+<td></td>
+<td>Documented scanning scope is repository source content/history.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Push protection on web-interface commits</a></td>
+<td>✅</td>
+<td>Explicitly documented for the Azure Repos web interface.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Push protection on file uploads</a></td>
+<td></td>
+<td>Web-commit protection is documented; a separate file-upload coverage guarantee was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Audit log events for non-provider patterns</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Create a push protection bypass through REST API</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Organization-level enablement of non-provider patterns</a></td>
+<td></td>
+<td>Detection exists; a separately configurable organization-wide non-provider-pattern toggle was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">REST API for secret scanning scan history</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-permissions?view=azure-devops" rel="nofollow">Delegated alert dismissal for secret scanning</a></td>
+<td></td>
+<td>Dismissal permissions exist; a request/reviewer/approval queue was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-268-update" rel="nofollow">Secret scanning completion events through audit log and webhooks</a></td>
+<td></td>
+<td>Validity-status service hooks are documented, but do not establish scan-completion event parity.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scan-patterns?view=azure-devops" rel="nofollow">Base64-encoded GitHub token detection</a></td>
+<td></td>
+<td>No explicit encoded-token support statement established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Push protection bypass request management through REST API</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Free secret risk assessment for organization/security administrators</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Configurable push protection patterns</a></td>
+<td></td>
+<td>No documented selection of which provider patterns receive push protection.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret scanning in wikis</a></td>
+<td></td>
+<td>No explicit Azure DevOps wiki coverage established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Secret scanning REST fields: first location detected and additional locations</a></td>
+<td></td>
+<td>ADO APIs have their own schema; GitHub field-level compatibility was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret scanning validity checks</a></td>
+<td>✅</td>
+<td>Automatic for supported types; also supports on-demand verification and validation-status filtering.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret scanning alert assignment</a></td>
+<td></td>
+<td>Azure Boards work-item linking is separate from a native alert-assignee field.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Enterprise-level push protection delegated bypass</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Push protection exemptions for apps, teams, and roles</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Sort bypass and alert-dismissal approval requests by date</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Custom validity states for custom-pattern alerts through REST API</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Repository-level push protection exemptions for trusted actors</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret scanning across full Git history and all branches</a></td>
+<td>✅</td>
+<td>A unique credential is consolidated into one alert across its occurrences.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret push protection for Git pushes</a></td>
+<td>✅</td>
+<td>Native Azure Repos Git enforcement for supported high-confidence patterns.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Custom secret regex patterns</a></td>
+<td></td>
+<td>No documented custom-pattern configuration.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Dry runs and push protection for custom secret patterns</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scan-patterns?view=azure-devops" rel="nofollow">AI detection of unstructured secrets / generic passwords</a></td>
+<td></td>
+<td>Non-provider structured patterns do not establish AI password detection.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Public monitoring for leaked enterprise credentials</a></td>
+<td></td>
+<td>No ADO-native equivalent established.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="code-security">Code Security</h2>
+<h3 id="code-scanning">Code scanning</h3>
+<p>Code scanning uses CodeQL to identify vulnerabilities. Azure DevOps also accepts findings from third-party tools.</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Code scanning documentation</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-codeql-init-v1?view=azure-pipelines" rel="nofollow">Initialize CodeQL task reference</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-publish-v1?view=azure-pipelines" rel="nofollow">Publish third-party SARIF results</a>.</li>
+</ul>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-codeql-init-v1?view=azure-pipelines" rel="nofollow">CodeQL toolcache / version management</a></td>
+<td>✅</td>
+<td>Agent/task-managed rather than a fixed appliance-bundled version; automatic installation can obtain the latest CodeQL version.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Kotlin language support</a></td>
+<td>✅</td>
+<td>Uses the Java/Kotlin analyzer (<code class="notranslate">java</code>); requires the appropriate build configuration.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Swift language support</a></td>
+<td>✅</td>
+<td>Advanced setup; Swift is not supported by ADO default setup.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL threat models for detecting relevant alerts</a></td>
+<td></td>
+<td>Not separately established in the reviewed ADO configuration documentation.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Code scanning merge protection</a></td>
+<td>✅</td>
+<td>ADO branch-policy status checks, not GitHub rulesets; new/all high-and-critical checks.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL threat-model configuration in default setup</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL model packs for organizations/repositories</a></td>
+<td></td>
+<td>No matching managed organization/default-setup integration established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL scans Java projects without a build</a></td>
+<td>✅</td>
+<td>Default setup uses <code class="notranslate">none</code> build mode; advanced setup also exposes build-mode configuration.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL scans C# projects without a build</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL dependency caching for advanced setup</a></td>
+<td></td>
+<td>No ADO-specific equivalent of the managed caching integration established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-codeql-init-v1?view=azure-pipelines" rel="nofollow">Zstandard archives for CodeQL tools</a></td>
+<td></td>
+<td>Archive support is CLI/version-dependent, not a separately documented ADO feature.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-permissions?view=azure-devops" rel="nofollow">Delegated alert dismissal for code scanning</a></td>
+<td></td>
+<td>ADO permission-based dismissal is not approval-based dismissal.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Code scanning alert-related audit log events</a></td>
+<td></td>
+<td>Exact event coverage was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Development section to track alert resolution progress</a></td>
+<td></td>
+<td>Work-item linking exists, but an equivalent alert development/progress section was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL scanning of GitHub Actions workflows</a></td>
+<td></td>
+<td>The ADO language/task documentation does not establish this integration.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Rust language support</a></td>
+<td>✅</td>
+<td>Listed in default setup and the current Initialize CodeQL task reference.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL scans C/C++ projects without a build</a></td>
+<td>✅</td>
+<td>C/C++ is included in ADO default setup, which uses <code class="notranslate">none</code> build mode.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Code scanning alert assignment</a></td>
+<td></td>
+<td>Native assignment to a human owner was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Periodic code scanning of inactive repositories</a></td>
+<td>✅</td>
+<td>Scheduled default-branch scans provide this outcome; no new commit is required to trigger the weekly schedule.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Incremental CodeQL analysis for pull requests</a></td>
+<td></td>
+<td>No ADO integration statement established; do not infer support from CLI releases alone.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2025/sprint-264-update" rel="nofollow">Code scanning alerts linked to work-management items</a></td>
+<td>✅</td>
+<td>Azure Boards work items rather than GitHub Issues. Programmatic linking is also documented in <a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-268-update" rel="nofollow">Sprint 268</a>.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL data extensions for custom barriers and sanitizer models</a></td>
+<td></td>
+<td>CLI/query-pack-version dependent; not separately established in ADO documentation.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL analysis of composite action metadata files</a></td>
+<td></td>
+<td>No ADO-specific support statement established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL static analysis and repository alerts</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Licensed standalone CodeQL CLI analysis</a></td>
+<td>✅</td>
+<td>For repositories covered by a paid GHAzDO license; publish SARIF to ADO.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-publish-v1?view=azure-pipelines" rel="nofollow">Third-party code scanning / SARIF ingestion</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-codeql-init-v1?view=azure-pipelines" rel="nofollow">Custom queries, query suites, and configuration files</a></td>
+<td>✅</td>
+<td>Advanced setup exposes query-suite and configuration-file inputs.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-codeql-init-v1?view=azure-pipelines" rel="nofollow">Automatic CodeQL installation on self-hosted agents</a></td>
+<td>✅</td>
+<td><code class="notranslate">enableAutomaticCodeQLInstall</code>.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-276-update" rel="nofollow">CodeQL default setup without YAML changes</a></td>
+<td>✅</td>
+<td>Automatic language detection and an initial scan when enabled at organization/project level.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">PR-triggered CodeQL default setup</a></td>
+<td></td>
+<td>Documented default setup scans the default branch only. Use advanced setup/build validation for PR analysis.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Go and Swift in CodeQL default setup</a></td>
+<td></td>
+<td>Both require advanced setup on ADO.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">PR annotations for code scanning</a></td>
+<td>✅</td>
+<td>Requires configured build validation and appropriate baseline scans.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Configurable severity thresholds and tool-specific merge rules</a></td>
+<td></td>
+<td>ADO's built-in checks cover new/all high-and-critical alerts, not an arbitrary matching threshold/ruleset configuration.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">Configurable default-setup agent pool and scan schedule</a></td>
+<td>✅</td>
+<td>Organization settings support Microsoft-hosted, self-hosted, and Managed DevOps Pools; weekly schedule selection.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="copilot-autofix-and-ai-security">Copilot Autofix and AI security</h3>
+<p>These additional rows capture relevant capabilities beyond the GHES matrix's code-scanning release list.</p>
+<p><strong>Preview access caveat:</strong> the <a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">current how-to</a> labels Autofix public preview; <a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-281-update" rel="nofollow">Sprint 281</a> calls it <strong>limited public preview</strong> and states that additional participants are not being accepted. Treat the feature as public preview with restricted/uncertain enrollment, not GA.</p>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Copilot Autofix for code-scanning alerts</a></td>
+<td>☑️</td>
+<td>Alert-driven remediation: the coding agent explores repository context, refines changes, and opens a fix PR. Preview-access caveat above applies.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Autofix for third-party code-scanning alerts</a></td>
+<td>☑️</td>
+<td>Supported alongside CodeQL alerts.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Autofix for dependency vulnerabilities</a></td>
+<td>☑️</td>
+<td>Not deterministic scheduled Dependabot security/version updates.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Repository custom instructions and remediation skills</a></td>
+<td>☑️</td>
+<td>Documented <code class="notranslate">.github</code> and <code class="notranslate">.agents</code> instructions/skill locations.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Automatic inline Autofix suggestions on existing PR alerts</a></td>
+<td></td>
+<td>Documented alert-driven fix-PR generation does not establish automatic inline PR suggestions.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Multiple alerts fixed in a single Autofix PR</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Custom Autofix agent pools</a></td>
+<td></td>
+<td>Current Autofix prerequisites specify the Microsoft-hosted <strong>Azure Pipelines</strong> pool. This differs from configurable CodeQL scan pools.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">AI repository scanning beyond CodeQL-supported languages</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">AI application/agent scanning for prompt injection</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="dependabot-alerts">Dependabot alerts</h3>
+<p>The native ADO equivalent for vulnerability detection is <strong>dependency scanning</strong>. It finds vulnerable direct and transitive dependencies using GitHub-reviewed advisories. This does not imply the availability of the Dependabot service or all its workflows.</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependency scanning documentation</a>.</li>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning-ecosystems?view=azure-devops" rel="nofollow">Supported package ecosystems</a>.</li>
+</ul>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Vulnerable function-call / reachability information</a></td>
+<td></td>
+<td>Dependency paths and root dependencies are documented; vulnerable function-call reachability was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependabot auto-triage rules</a></td>
+<td></td>
+<td>No native rule-based auto-triage equivalent established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">CVSS 4.0 schema for advisory scoring</a></td>
+<td></td>
+<td>CVSS-based severity is documented; explicit ADO CVSS 4.0 presentation/parity was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">EPSS information for vulnerability prioritization</a></td>
+<td>✅</td>
+<td>ADO displays <strong>EPSS percentile</strong>, not an identical advisory-score UI.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">EPSS filtering in dependency alerts</a></td>
+<td>✅</td>
+<td>Percentile range filter; metadata is not available for every advisory.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Dependabot-specific metrics page</a></td>
+<td></td>
+<td>ADO Risk/Coverage/Alerts views exist; an equivalent dedicated metrics page was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependency vulnerability alert assignment</a></td>
+<td></td>
+<td>Work-item linking is separate from native alert assignment.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-permissions?view=azure-devops" rel="nofollow">Delegated alert dismissal for dependency alerts</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Alerts for known malicious package versions</a></td>
+<td>🔒</td>
+<td>Current ADO documentation labels malware findings <strong>private preview</strong>.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Vulnerability alerts for direct and transitive dependencies</a></td>
+<td>✅</td>
+<td>Uses GitHub-reviewed advisories from the GitHub Advisory Database.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Root-dependency and dependency-path remediation context</a></td>
+<td>✅</td>
+<td>Helps locate the direct dependency responsible for transitive exposure.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Development/runtime dependency scope</a></td>
+<td>✅</td>
+<td>Scope badges and filters when the result includes scope metadata.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Branch, pipeline, package, and severity filters</a></td>
+<td>✅</td>
+<td>The alerts hub does not display scans completed on PR branches.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Automatic closure when a vulnerable component is removed/fixed</a></td>
+<td>✅</td>
+<td>Based on latest relevant pipeline results.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2025/sprint-264-update" rel="nofollow">Dependency-scanning default setup</a></td>
+<td>✅</td>
+<td>Injects the scanning task into suitable pipelines; a pipeline must still run.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Pipeline-independent dependency scanning</a></td>
+<td></td>
+<td>The documented ADO setup requires pipeline execution.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">PR dependency-vulnerability annotations and merge checks</a></td>
+<td>✅</td>
+<td>Requires build validation and baseline scanning; high/critical checks do not constitute full dependency review.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dependabot-updates">Dependabot updates</h3>
+<p>No native deterministic Dependabot security/version-update service was established in the reviewed ADO product documentation. The rows below deliberately retain the feature granularity of the GHES matrix, with empty support cells. <strong>Agentic dependency Autofix is a separate public-preview capability</strong>, listed above.</p>
+<p>Feature links point to ADO dependency-remediation documentation for context, not to documentation claiming these Dependabot features exist on ADO.</p>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependabot security-update PRs</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Scheduled Dependabot version-update PRs</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependabot support for devcontainer.json</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependabot access to Cargo private registries</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Pause scheduled update jobs after repeated failures</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Grouped security updates</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Private-registry support for target-branch configuration</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Updates for pnpm workspace catalogs</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Updates for .NET SDK global.json</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Bun dependencies</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Docker Compose dependencies</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for uv dependencies</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Organization-wide Dependabot access grants</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Helm dependencies</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Custom update frequencies using cron expressions</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Gradle lockfile updates</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Minimum package-age configuration</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Cross-ecosystem grouped update PRs</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Central management of private-registry configurations</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for vcpkg and Rust toolchains</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Updates for private Go modules</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Conda dependencies</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">OIDC authentication for private registries</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Security updates for uv / Python</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for OpenTofu</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Bazel</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Julia</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for pre-commit hooks</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Organization-level OIDC for Dependabot/code-scanning registries</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Multiple private registries per ecosystem</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for Deno</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for sbt</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version/security updates for Poetry v2</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Cross-organization access to internal/private repositories</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Version updates for the Nix ecosystem</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Swift package updates in Xcode projects</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="dependency-graph-dependency-review-and-snapshot-submission-api">Dependency graph, dependency review and snapshot submission API</h3>
+<p>ADO dependency scanning stores component snapshots and dependency relationships. That underlying data is <strong>not evidence of a complete dependency-inventory UI, dependency-review API, or SBOM-export feature</strong>.</p>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Package URLs in generated SBOMs</a></td>
+<td></td>
+<td>Native SBOM export and package-URL coverage were not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Component snapshots and dependency relationships</a></td>
+<td>✅</td>
+<td>Updated by dependency-scanning pipeline runs.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Repository dependency-inventory UI</a></td>
+<td></td>
+<td>A vulnerability alert list is not a complete dependency inventory.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Dependency graph REST API</a></td>
+<td></td>
+<td>Alert APIs do not establish a dependency-graph API equivalent.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Dependency snapshot submission API</a></td>
+<td></td>
+<td>No GitHub-style general-purpose snapshot-submission API established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Native SBOM export through UI/API</a></td>
+<td></td>
+<td>Separate pipeline-based SBOM tools do not count as native export.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependency review showing added, removed, and changed PR dependencies</a></td>
+<td></td>
+<td>PR vulnerability annotations are available, but a full dependency-review diff was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Merge blocking for new high/critical dependency vulnerabilities</a></td>
+<td>✅</td>
+<td>ADO branch-policy status checks provide this narrower prevention outcome.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependency-review license allow/deny policies</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Enterprise-wide open-source license-policy management</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="security-overview">Security Overview</h2>
+<p>Security overview summarizes security risk and scanning coverage across projects and repositories <strong>within an Azure DevOps organization</strong>.</p>
+<ul>
+<li><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Security Overview documentation</a>.</li>
+</ul>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Historical enablement-trends dashboard</a></td>
+<td></td>
+<td>Coverage shows enablement/scanning status; historical enablement-trend parity was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Enterprise-level secret-scanning metrics and enablement trends</a></td>
+<td></td>
+<td>No multi-organization enterprise equivalent established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Security Overview group by tool</a></td>
+<td></td>
+<td>Tool filtering is documented; an equivalent group-by-tool dashboard was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Security Overview filter by security tool</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">CodeQL pull-request alerts metrics view</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">SAST vulnerability summary in Security Overview</a></td>
+<td>✅</td>
+<td>Risk table filtered to code scanning; not an identical GitHub-specific dashboard.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Prevention, detection, and remediation metrics dashboards</a></td>
+<td></td>
+<td>Risk counts do not establish full prevention/bypass/MTTR dashboard parity.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">CSV export from the CodeQL pull-request alerts metrics view</a></td>
+<td></td>
+<td>General ADO CSV export exists, but not an established equivalent PR-metrics view.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Security Overview accessibility enhancements</a></td>
+<td></td>
+<td>No matching feature-specific release established; this is not a statement that ADO is inaccessible.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Filter bar for delegated bypass requests</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Overview includes PR-analysis CodeQL alerts on non-default branches</a></td>
+<td></td>
+<td>Documented Risk counts use default-branch findings.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Organization-wide Risk, Coverage, and Alerts views</a></td>
+<td>✅</td>
+<td>Cross-project/repository views in organization settings.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Organization-level Risk and Coverage rollup metrics</a></td>
+<td>🔒</td>
+<td>Explicitly labeled private preview in current documentation.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Cross-repository alert search and tool-specific filters</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">CSV export of risk, coverage, and alerts</a></td>
+<td>✅</td>
+<td>Alerts export is limited to the first <strong>1,000</strong> filtered alerts.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Shareable filtered remediation views / security campaigns</a></td>
+<td>✅</td>
+<td>ADO calls shared URL-filtered alert views <strong>security campaigns</strong>.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Managed campaigns with owners, notifications, and progress workflow</a></td>
+<td></td>
+<td>Shared filtered views do not establish the managed campaign lifecycle available on GitHub.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Campaign-level bulk remediation with Copilot</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="administration">Administration</h2>
+<p>ADO supports organization/project/repository enablement and its own permissions and APIs. These should not be equated automatically with GitHub security configurations or GitHub-specific roles.</p>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Azure DevOps</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Enable security features at scale</a></td>
+<td>✅</td>
+<td>Organization/project bulk enablement; not a reusable named security-configuration object.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Enterprise-level security configurations</a></td>
+<td></td>
+<td>No multi-organization reusable configuration/enforcement equivalent established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Security configurations for archived repositories</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Advanced repository selection by security-feature status</a></td>
+<td></td>
+<td>Coverage filters exist, but matching configuration-assignment selection was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-permissions?view=azure-devops" rel="nofollow">Security manager role assigned directly to individual users</a></td>
+<td></td>
+<td>ADO has assignable permissions; no identical GitHub security-manager role established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Standalone Code Security and Secret Protection products</a></td>
+<td>✅</td>
+<td>Bundled arrangements also remain documented.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">"Not set" option in reusable security configurations</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Security configurations selecting default/advanced CodeQL setup</a></td>
+<td></td>
+<td>Both setup modes exist; a reusable security-configuration object was not established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-permissions?view=azure-devops" rel="nofollow">Enterprise Security Manager role</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Code scanning default setup overriding Actions policies</a></td>
+<td></td>
+<td>GitHub Actions policy is not an ADO control. ADO has its own pipeline/task prerequisites.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Audit log events for Dependabot configuration changes</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Security configurations setup wizard</a></td>
+<td></td>
+<td>No corresponding named configuration workflow established.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Enterprise-wide disablement for private/internal repositories</a></td>
+<td></td>
+<td>ADO enablement is organization/project/repository scoped, not a multi-organization enterprise control.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">Automatic enablement for future repositories/projects</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-permissions?view=azure-devops" rel="nofollow">Granular alert/settings permissions</a></td>
+<td>✅</td>
+<td>View alerts, manage/dismiss alerts, and manage settings.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/rest/api/azure/devops/advancedsecurity/alerts/list?view=azure-devops-rest-7.2" rel="nofollow">Advanced Security alert and enablement REST APIs</a></td>
+<td>✅</td>
+<td>ADO-specific endpoints and schemas, not GitHub API compatibility.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-268-update" rel="nofollow">Programmatic alert-to-work-item linking</a></td>
+<td>✅</td>
+<td></td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/ghazdo/sprint-268-update" rel="nofollow">Secret validity-status service hooks</a></td>
+<td>✅</td>
+<td>This does not imply identical coverage for every GitHub webhook/audit event.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dependencies">Dependencies</h2>
+<p>The following requirements apply to the ADO capabilities that are documented as available or in preview.</p>
+<table role="table">
+<thead>
+<tr>
+<th>Feature</th>
+<th>License required?</th>
+<th>Azure Pipelines / agent capacity required?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-security-overview?view=azure-devops" rel="nofollow">Security Overview</a></td>
+<td>No, to access the overview</td>
+<td>No</td>
+<td>Available in organization settings even without enabled repositories; findings/coverage depend on the enabled products.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret scanning</a></td>
+<td>Secret Protection or GHAS bundle</td>
+<td>No</td>
+<td>Native repository/history scanning.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Secret push protection</a></td>
+<td>Secret Protection or GHAS bundle</td>
+<td>No</td>
+<td>Native Git/web-commit checks for supported patterns.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-secret-scanning?view=azure-devops" rel="nofollow">Validity checks</a></td>
+<td>Secret Protection or GHAS bundle</td>
+<td>No</td>
+<td>Automatically included for supported types.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-dependency-scanning?view=azure-devops" rel="nofollow">Dependency scanning</a></td>
+<td>Code Security or GHAS bundle</td>
+<td>Yes</td>
+<td>Default setup injects a task into suitable pipelines; a pipeline must execute.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL default setup</a></td>
+<td>Code Security or GHAS bundle</td>
+<td>Yes, agent capacity</td>
+<td>No YAML changes; managed scheduled scans. Pool/schedule configuration is separate from Autofix execution.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-code-scanning?view=azure-devops" rel="nofollow">CodeQL advanced setup</a></td>
+<td>Code Security or GHAS bundle</td>
+<td>Yes for documented pipeline tasks</td>
+<td>Standalone licensed CLI analysis with SARIF publishing is also supported.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/advanced-security-publish-v1?view=azure-pipelines" rel="nofollow">Third-party SARIF findings</a></td>
+<td>Code Security or GHAS bundle</td>
+<td>Yes for the documented Publish task</td>
+<td>Scanner execution and third-party licensing are separate.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/configure-github-advanced-security-features?view=azure-devops" rel="nofollow">PR security annotations/status checks</a></td>
+<td>Relevant security product</td>
+<td>Yes</td>
+<td>Requires configured scanning/build validation and baseline scans of relevant branches.</td>
+</tr>
+<tr>
+<td><a href="https://learn.microsoft.com/en-us/azure/devops/repos/security/github-advanced-security-autofix?view=azure-devops" rel="nofollow">Copilot Autofix</a></td>
+<td>GHAS / Code Security entitlement; preview access</td>
+<td>Yes, Microsoft-hosted Azure Pipelines pool</td>
+<td>Requires a parallel job. Fix generation consumes separately Azure-billed AI credits; GitHub Copilot budgets do not govern this meter.</td>
+</tr>
+</tbody>
+</table></article>
+  </main>
+</body>
+</html>
